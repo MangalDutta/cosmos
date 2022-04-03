@@ -20,6 +20,6 @@ An Azure Cosmos DB container.
 
 The role-based access control with Azure Active Directory for your Azure Cosmos DB account basically requires the [Azure Identity library](https://www.nuget.org/packages/Azure.Identity/1.6.0-beta.1) to support Azure Active Directory (AAD) token authentication. 
 
-The AAD token authentication feature is supported for azure cosmos Java libraries **4.6.0** and above. 
+The AAD token authentication feature is supported for azure cosmos with thhe minimum recommended version of **3.25.0**. 
 
 This is sample code to get you started on integrating, configure and use the AAD token authentication for your SQL Cosmos Accounts.
