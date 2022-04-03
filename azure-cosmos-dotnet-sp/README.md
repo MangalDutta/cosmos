@@ -28,6 +28,5 @@ where,
 * CLIENT_ID is the client-id for the service principal
 * CLIENT_SECRET is the client-secret for the service principal
 * TENANT_ID is the tenant identifier for the Azure subscription
-* ACCOUNT_HOST is the fully-qualified host details that you can get from the Azure portal
 * DATABASE is the Cosmos Database 
 * CONTAINER is the Cosmos Container
