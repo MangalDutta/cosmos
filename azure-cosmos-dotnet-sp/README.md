@@ -23,3 +23,11 @@ The role-based access control with Azure Active Directory for your Azure Cosmos 
 The AAD token authentication feature is supported for azure cosmos with thhe minimum recommended version of [**3.25.0**](https://docs.microsoft.com/en-us/azure/cosmos-db/sql/sql-api-sdk-dotnet-standard). 
 
 This is sample code to get you started on integrating, configure and use the AAD token authentication for your SQL Cosmos Accounts.
+
+where,
+* CLIENT_ID is the client-id for the service principal
+* CLIENT_SECRET is the client-secret for the service principal
+* TENANT_ID is the tenant identifier for the Azure subscription
+* ACCOUNT_HOST is the fully-qualified host details that you can get from the Azure portal
+* DATABASE is the Cosmos Database 
+* CONTAINER is the Cosmos Container
