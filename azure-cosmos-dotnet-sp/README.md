@@ -8,9 +8,9 @@ The Azure Cosmos DB data plane RBAC is built on concepts that are commonly found
 
 The [permission model](https://github.com/MicrosoftDocs/azure-docs/blob/ace3a1f12faf932e2eeb69c0bfe72041780c582e/articles/cosmos-db/how-to-setup-rbac.md#permission-model) is composed of a set of actions; each of these actions maps to one or multiple database operations. Some examples of actions include reading an item, writing an item, or executing a query.
 
-Azure Cosmos DB users create role definitions containing a list of allowed actions.
+Azure Cosmos DB users create [role definitions](https://github.com/MicrosoftDocs/azure-docs/blob/ace3a1f12faf932e2eeb69c0bfe72041780c582e/articles/cosmos-db/how-to-setup-rbac.md#role-definitions) containing a list of allowed actions.
 
-Role definitions get assigned to specific Azure AD identities through role assignments. A role assignment also defines the scope that the role definition applies to; currently, three scopes are currently:
+Role definitions get assigned to specific Azure AD identities through [role assignments](https://github.com/MicrosoftDocs/azure-docs/blob/ace3a1f12faf932e2eeb69c0bfe72041780c582e/articles/cosmos-db/how-to-setup-rbac.md#role-assignments). A role assignment also defines the scope that the role definition applies to; currently, three scopes are currently:
 
 An Azure Cosmos DB account,
 An Azure Cosmos DB database,
