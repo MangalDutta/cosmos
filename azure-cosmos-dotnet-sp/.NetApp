@@ -27,7 +27,7 @@ namespace RBACTest
           var Exec = await client.GetContainer("SampleDatabase", "SampleDatabase")
            .GetItemQueryIterator<dynamic>("SELECT * FROM SampleDatabase")
            .ReadNextAsync();
-            Console.WriteLine("Query has been executed with below RUs");
+            Console.WriteLine("Query has been executed successfully with below RUs");
             Console.WriteLine(Exec.RequestCharge);
             Console.WriteLine("Press enter to close...");
             Console.ReadLine();
