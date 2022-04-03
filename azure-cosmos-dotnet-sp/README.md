@@ -1,4 +1,4 @@
-## **Setting up Service Principal Authentication for accessing data from the Cosmos account SQL API using .net**
+## **Setting up Service Principal Authentication for accessing data from the Cosmos DB SQL API using .net**
 Azure Cosmos DB exposes a built-in role-based access control (RBAC) system that lets you:
 
 Authenticate your data requests with an Azure Active Directory (Azure AD) identity.
