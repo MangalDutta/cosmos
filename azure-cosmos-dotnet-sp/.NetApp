@@ -17,9 +17,9 @@ namespace RBACTest
 
 
             TokenCredential ServicePrincipal = new ClientSecretCredential(
-            "72f988bf-86f1-41af-91ab-2d7cd011db47", //AzureAdTenantId
-            "495474c5-2f14-4c24-9258-ad0deb2e430d",   //ClientAppId
-            "Pn97Q~XBWWqUnuM-rAisDoiaYcGd3qZaMUMwS");  //ClientAppSecret
+            "<ProvideAADTenantId>", //AzureAdTenantId
+            "<ProvideAADTenantId>",   //ClientAppId
+            "<ProvideAADTenantId>");  //ClientAppSecret
 
             CosmosClient client = new CosmosClient("https://cosmosusecasetestingaccount.documents.azure.com:443/", ServicePrincipal);
 
