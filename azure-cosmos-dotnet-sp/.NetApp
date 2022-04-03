@@ -18,14 +18,14 @@ namespace RBACTest
 
             TokenCredential ServicePrincipal = new ClientSecretCredential(
             "<ProvideAADTenantId>", //AzureAdTenantId
-            "<ProvideAADTenantId>",   //ClientAppId
-            "<ProvideAADTenantId>");  //ClientAppSecret
+            "<ProvideClientAppId>",   //ClientAppId
+            "<ProvideClientAppSecret>");  //ClientAppSecret
 
-            CosmosClient client = new CosmosClient("https://cosmosusecasetestingaccount.documents.azure.com:443/", ServicePrincipal);
+            CosmosClient client = new CosmosClient("<CosmosAccountEndpoint>", ServicePrincipal);
 
 
-          var Exec = await client.GetContainer("SampleDatabase", "SampleDatabase")
-           .GetItemQueryIterator<dynamic>("SELECT * FROM SampleDatabase") 
+          var Exec = await client.GetContainer("SampleDatabase", "SampleContainer")
+           .GetItemQueryIterator<dynamic>("SELECT * FROM SampleContainer") 
            .ReadNextAsync();
             Console.WriteLine("Query has been executed successfully with below consumed RUs");
             Console.WriteLine(Exec.RequestCharge);
