@@ -25,7 +25,7 @@ namespace RBACTest
 
 
           var Exec = await client.GetContainer("<SampleDatabase>", "<SampleContainer>")
-           .GetItemQueryIterator<dynamic>("SELECT * FROM <SampleContainer>") 
+           .GetItemQueryIterator<dynamic>("SELECT * FROM c") 
            .ReadNextAsync();
             Console.WriteLine("Query has been executed successfully with below consumed RUs");
             Console.WriteLine(Exec.RequestCharge);
