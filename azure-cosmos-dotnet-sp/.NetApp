@@ -24,8 +24,8 @@ namespace RBACTest
             CosmosClient client = new CosmosClient("<CosmosAccountEndpoint>", ServicePrincipal);
 
 
-          var Exec = await client.GetContainer("SampleDatabase", "SampleContainer")
-           .GetItemQueryIterator<dynamic>("SELECT * FROM SampleContainer") 
+          var Exec = await client.GetContainer("<SampleDatabase>", "<SampleContainer>")
+           .GetItemQueryIterator<dynamic>("SELECT * FROM <SampleContainer>") 
            .ReadNextAsync();
             Console.WriteLine("Query has been executed successfully with below consumed RUs");
             Console.WriteLine(Exec.RequestCharge);
