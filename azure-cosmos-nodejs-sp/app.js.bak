@@ -16,7 +16,7 @@ const client = new CosmosClient({
 
 const dbContext = require("./data/databaseContext");
 
-//  <DefineNewItem>
+//  <DefineNewItem ad>
 const newItem = {
 
   type: "Azure AD authentication",
