@@ -27,5 +27,5 @@ An Azure Cosmos DB container.
    npm install @azure/identity
    
 3. Install Azure Identity Package
-   https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest
+   https://docs.microsoft.com/en-us/javascript/api/@azure/identity/?view=azure-node-latest
    npm install @azure/cosmos
