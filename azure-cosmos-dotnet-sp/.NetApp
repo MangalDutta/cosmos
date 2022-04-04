@@ -21,10 +21,10 @@ namespace RBACTest
             "<ProvideClientAppId>",   //ClientAppId
             "<ProvideClientAppSecret>");  //ClientAppSecret
 
-            CosmosClient client = new CosmosClient("<CosmosAccountEndpoint>", ServicePrincipal);
+            CosmosClient client = new CosmosClient("<CosmosAccountEndpoint>", ServicePrincipal); //Provide the Cosmos Endpoint
 
 
-          var Exec = await client.GetContainer("<SampleDatabase>", "<SampleContainer>")
+          var Exec = await client.GetContainer("<SampleDatabase>", "<SampleContainer>") //Provide the existing cosmos database and container name. 
            .GetItemQueryIterator<dynamic>("SELECT * FROM c") 
            .ReadNextAsync();
             Console.WriteLine("Query has been executed successfully with below consumed RUs");
