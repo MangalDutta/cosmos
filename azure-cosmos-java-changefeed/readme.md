@@ -1,1 +1,0 @@
-## **CosmosDB - Change Feed**

@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.scheduler.Schedulers;
 
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 
@@ -29,10 +30,12 @@ public class CFPApp {
     private String userAgentSuffix = "CosmosDBServiceCFP_FC";
     //
     private static final Logger LOGGER = LoggerFactory.getLogger(CFPApp.class);
+
     //
     public void close() {
         client.close();
     }
+
     //
     private Config config;
 
@@ -45,7 +48,7 @@ public class CFPApp {
     public static void main(String[] args) {
         CFPApp p = new CFPApp();
         CommandLine cline = p.setupOptions(args);
-        if(cline != null) {
+        if (cline != null) {
             p.populateConfig(cline);
             System.out.println("Start the ChangeFeed Processor ");
             try {
@@ -71,8 +74,8 @@ public class CFPApp {
          * --key <access key>
          * --consistencylevel SESSION
          * --leasecontainer <lease container name>
-         * --changefeedHost <host to be used for change feed>
-         * --changefeedPrefix <prefix to be used for change feed>
+         * --host <host to be used for change feed>
+         * --prefix <prefix to be used for change feed>
          *
          * Examples
          * --endpoint <cosmos account> --database demo --container <container name> --key <access key>
@@ -82,14 +85,14 @@ public class CFPApp {
         //
         Options commandLineOptions = new Options();
         //
-        commandLineOptions.addOption( Option.builder().longOpt(Constants.ENDPOINT).required(true).hasArg().desc("Endpoint").build()  );
-        commandLineOptions.addOption( Option.builder().longOpt(Constants.DATABASE).required(true).hasArg().desc("Database name").build()  );
-        commandLineOptions.addOption( Option.builder().longOpt(Constants.CONTAINER).required(true).hasArg().desc("Container name").build()  );
-        commandLineOptions.addOption( Option.builder().longOpt(Constants.KEY).required(true).hasArg().desc("Access key").build()  );
-        commandLineOptions.addOption( Option.builder().longOpt(Constants.CONSISTENCY_LEVEL).required(false).hasArg().desc("Read consistency level (Eventual/CONSISTENT_PREFIX/SESSION/BOUNDED_STALENESS)").build()  );
-        commandLineOptions.addOption( Option.builder().longOpt(Constants.LEASE_CONTAINER).required(true).hasArg().desc("Lease container name").build()  );
-        commandLineOptions.addOption( Option.builder().longOpt(Constants.HOST).required(true).hasArg().desc("Change feed host").build()  );
-        commandLineOptions.addOption( Option.builder().longOpt(Constants.PREFIX).required(true).hasArg().desc("Change feed prefix").build()  );
+        commandLineOptions.addOption(Option.builder().longOpt(Constants.ENDPOINT).required(true).hasArg().desc("Endpoint").build());
+        commandLineOptions.addOption(Option.builder().longOpt(Constants.DATABASE).required(true).hasArg().desc("Database name").build());
+        commandLineOptions.addOption(Option.builder().longOpt(Constants.CONTAINER).required(true).hasArg().desc("Container name").build());
+        commandLineOptions.addOption(Option.builder().longOpt(Constants.KEY).required(true).hasArg().desc("Access key").build());
+        commandLineOptions.addOption(Option.builder().longOpt(Constants.CONSISTENCY_LEVEL).required(false).hasArg().desc("Read consistency level (Eventual/CONSISTENT_PREFIX/SESSION/BOUNDED_STALENESS)").build());
+        commandLineOptions.addOption(Option.builder().longOpt(Constants.LEASE_CONTAINER).required(true).hasArg().desc("Lease container name").build());
+        commandLineOptions.addOption(Option.builder().longOpt(Constants.HOST).required(true).hasArg().desc("Change feed host").build());
+        commandLineOptions.addOption(Option.builder().longOpt(Constants.PREFIX).required(false).hasArg().desc("Change feed prefix").option("").build());
         //
         CommandLineParser parser = new DefaultParser();
         CommandLine commandLine = null;
@@ -112,9 +115,11 @@ public class CFPApp {
         config.setDatabase(commandLine.getOptionValue(Constants.DATABASE));
         config.setKey(commandLine.getOptionValue(Constants.KEY));
         config.setLeaseContainer(commandLine.getOptionValue(Constants.LEASE_CONTAINER));
+        config.setHost(commandLine.getOptionValue(Constants.HOST));
+        config.setPrefix(commandLine.getOptionValue(Constants.PREFIX));
         //
         ConsistencyLevel consistencyLevel = ConsistencyLevel.SESSION;
-        switch(commandLine.getOptionValue(Constants.CONSISTENCY_LEVEL)) {
+        switch (commandLine.getOptionValue(Constants.CONSISTENCY_LEVEL)) {
             case Constants.CONSISTENCY_LEVEL_STRONG:
                 consistencyLevel = ConsistencyLevel.STRONG;
                 break;
@@ -151,7 +156,7 @@ public class CFPApp {
         createLeaseContainerIfNotExists();
         System.out.println("\n\n\n\nCreating materialized view...");
         //
-        ChangeFeedProcessor changeFeedProcessorInstance = getChangeFeedProcessor("MongoCFP");
+        ChangeFeedProcessor changeFeedProcessorInstance = getChangeFeedProcessor();
         changeFeedProcessorInstance
                 .start()
                 .subscribeOn(Schedulers.elastic())
@@ -183,35 +188,28 @@ public class CFPApp {
             }
         }
     }
-/*
-    public static ChangeFeedProcessor getChangeFeedProcessor(final String hostName,
-                                                             final CosmosAsyncContainer container,
-                                                             final CosmosAsyncContainer leaseContainer) {
-        ChangeFeedProcessorOptions options = new ChangeFeedProcessorOptions();
-        options.setStartFromBeginning(true);
-        //options.setStartTime(Instant.now().minusSeconds(60*60));
-        // If you want multiple consumers to receive same message
-        options.setLeasePrefix(RandomStringUtils.randomAlphabetic(5));
-
-        return new ChangeFeedProcessorBuilder()
-                .hostName(hostName) // hostName would help you distribute the data across partitions
-                .options(options) // options
-                .feedContainer(container) // monitored container
-                .leaseContainer(leaseContainer) // lease container
-                .handleChanges((List<JsonNode> docs) -> {
-                    System.out.println("--->setHandleChanges() START");
-                    for (JsonNode document : docs) {
-                        // Modify the data or persist it as per your need
-                    }
-                    System.out.println("--->handleChanges() END");
-                })
-                .buildChangeFeedProcessor();
-    }*/
-
     public static int CHANGE_FEED_COUNTER = 0;
 
-    private ChangeFeedProcessor getChangeFeedProcessor(String hostName) {
+    private ChangeFeedProcessor getChangeFeedProcessor() {
         ChangeFeedProcessorOptions options = new ChangeFeedProcessorOptions();
+        //options.setFeedPollDelay(Duration.ofMinutes(1));
+        /*
+        Sets the maximum number of items to be returned in the enumeration operation.
+        NOTE: There are some cases where the number of items returned from the Change Feed can be higher than
+        the specified value.
+        If items in the container are being written through stored procedures, transactional batch, or bulk,
+        they share the same transaction and the same bookkeeping, so they will be returned together when read through
+        the Change Feed.
+         */
+//        options.setMaxItemCount(10);
+        //This option can be used when lease store is not initialized and it is ignored if a lease item exists
+        // and has continuation token that is not null.
+//        options.setStartContinuation("31");
+//        options.setStartFromBeginning(true);
+
+        String hostName = config.getHost();
+        /*ChangeFeedPolicy
+                CosmosChangeFeedRequestOptions*/
 
         return new ChangeFeedProcessorBuilder()
                 .hostName(hostName)
@@ -219,7 +217,8 @@ public class CFPApp {
                 .feedContainer(container)
                 .leaseContainer(leaseContainer)
                 .handleChanges((List<JsonNode> docs) -> {
-                    System.out.println("\n----------\n----------New changes received "+new Date());
+                    // Avoid doing any time consuming processing in this block as it might impact the next batch
+                    System.out.println("\n----------\n----------New changes received " + new Date());
                     //
                     for (JsonNode document : docs) {
                         try {
@@ -238,6 +237,10 @@ public class CFPApp {
 
 
     private CosmosAsyncClient getCosmosClient() {
+        //
+        //DirectConnectionConfig dconfig = new DirectConnectionConfig();
+        //dconfig.setMaxConnectionsPerEndpoint(10);
+        //dconfig.setMaxRequestsPerConnection(10);
         //
         return new CosmosClientBuilder()
                 .endpoint(config.getEndpoint())
@@ -260,7 +263,7 @@ public class CFPApp {
     private void createContainerIfNotExists() throws Exception {
         System.out.println("Create container " + config.getContainer() + " if not exists.");
         //
-        CosmosAsyncDatabase databaseLink = client.getDatabase(config.getContainer());
+        CosmosAsyncDatabase databaseLink = client.getDatabase(config.getDatabase());
         CosmosAsyncContainer collectionLink = databaseLink.getContainer(config.getContainer());
         CosmosContainerResponse containerResponse = null;
 
@@ -305,7 +308,7 @@ public class CFPApp {
     private void createLeaseContainerIfNotExists() throws Exception {
         System.out.println("Create container " + config.getLeaseContainer() + " if not exists.");
 //
-        CosmosAsyncDatabase databaseLink = client.getDatabase(config.getLeaseContainer());
+        CosmosAsyncDatabase databaseLink = client.getDatabase(config.getDatabase());
         CosmosAsyncContainer collectionLink = databaseLink.getContainer(config.getLeaseContainer());
 
         CosmosContainerResponse containerResponse = null;

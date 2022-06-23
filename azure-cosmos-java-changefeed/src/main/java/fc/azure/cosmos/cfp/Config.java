@@ -10,6 +10,8 @@ public class Config {
     private String key;
     private ConsistencyLevel readConsistencyLevel;
     private String leaseContainer;
+    private String host;
+    private String prefix = "";
 
     public String getDatabase() {
         return database;
@@ -57,5 +59,21 @@ public class Config {
 
     public void setLeaseContainer(String leaseContainer) {
         this.leaseContainer = leaseContainer;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 }
