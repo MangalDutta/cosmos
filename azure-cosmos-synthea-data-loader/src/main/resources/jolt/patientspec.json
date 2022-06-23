@@ -1,0 +1,91 @@
+{
+    "extension": {
+      "0": {
+        "extension": {
+          "*": {
+            "valueString": "race"
+          }
+        }
+      },
+      "1": {
+        "extension": {
+          "*": {
+            "valueString": "ethnicity"
+          }
+        }
+      },
+      "2": {
+        "valueString": "mothersMaidenName"
+      },
+      "3": {
+        "valueCode": "birthSex"
+      },
+      "4": {
+        "valueAddress": {
+          "city": "birthPlace"
+        }
+      }
+    },
+    "identifier": {
+      "1": {
+        "value": "medicalRecordNumber"
+      },
+      "2": {
+        "value": "ssn"
+      },
+      "3": {
+        "value": "driversLicense"
+      },
+      "4": {
+        "value": "passport"
+      }
+    },
+    "name": {
+      "0": {
+        "family": "lastname",
+        "given": {
+          "0": "firstname"
+        }
+      }
+    },
+    "telecom": {
+      "0": {
+        "value": "telecom"
+      }
+    },
+    "gender": "gender",
+    "birthDate": "birthDate",
+    "address": {
+      "0": {
+        "line": {
+          "0": "address.streetLine"
+        },
+        "city": "address.city",
+        "state": "address.state",
+        "postalCode": "address.postalCode",
+        "country": "address.country",
+        "extension": {
+          "0": {
+            "extension": {
+              "0": {
+                "valueDecimal": "address.latitude"
+              },
+              "1": {
+                "valueDecimal": "address.longitude"
+              }
+            }
+          }
+        }
+      }
+    },
+    "maritalStatus": {
+      "text": "maritalStatus"
+    },
+    "communication": {
+      "0": {
+        "language": {
+          "text": "language"
+        }
+      }
+    }
+}
