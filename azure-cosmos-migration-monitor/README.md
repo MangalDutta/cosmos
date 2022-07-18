@@ -35,3 +35,25 @@ java -jar target\cosmos-migration-monitor.jar
 `Note` 
 - The `startTimeEpochMs` is the epoch time when the data migration activity was triggered (start time). Make a note of this as this would be important to calculate the average and total time required for the Data Migration activity
 - The `migrationStatusFreq` is the status polling frequency in seconds, how frequently one would want to view the status updates
+
+
+## Output
+
+On execution of the utility, if the Cosmos Source and Destination accounts have been configured properly then you would see the following messages showing up on the console based on the frequency specified in the parameter
+
+```sh
+2022-07-18 16:34:10,646 [pool-6-thread-1] INFO com.azure.cosmos.migrationmonitor.MigrationMonitor - 
+	 Percentage Complete : 90.00
+	 Total records inserted 1800 out of 2000
+	 Total record pending : 0
+	 Average Rate : 15.0 
+	 Current Rate : 250.00 
+	 Estimated Time (sec) : 100
+	 Total Time (sec) : 19769
+```
+`Note` 
+- `Average Rate` is calculated based on the total elapsed time so the start time is key for computing this value 
+- `Estimated Time` depends on the inserted records and the average time 
+
+## RU Cost
+Queries are made to the Source and Destination Cosmos container based on the configured frequency and each request would cost an `1 RU`
