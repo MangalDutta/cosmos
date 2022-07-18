@@ -1,11 +1,37 @@
-# cosmos change feed processor sample for Push and Pull model
+# Cosmos DB - Data Migration Monitor utility 
 
-# Setup the push model using the following steps
-mvn clean package
+Data Migration utility is tool that can be used to monitor the data migration status between the source and the destination Cosmos collections.
 
+## Features
 
-java -jar target\cosmosdb-cfp.jar --endpoint https://albaik.documents.azure.com:443/ --database ChangeFeedDemo --container Patient --key oXf30U3jU0hoevJLZP4aymx59fOfvg8fl0eLcbzawQGB98BF7HnOQgX98mum0jeeOxJfcN9K6IS84o3SHxy7yA== --consistencylevel SESSION --leasecontainer Patient_Lease --host IN1
+- Console based utility that would fetch the progress of the data migration activity based on the configured frequency
+- Show the approximate estimated time, average and total time for the data migration activity 
 
+## Build
 
+You would need Java JDK 8 and Maven build tool on your local environment for building this utility.
 
-# Check the CFPullApp.java for Change Feed pull model sample 
+Following command to build the source code 
+
+```sh
+cd azure-cosmos-migration-monitor
+mvn clean package 
+```
+
+Following command to execute the utility 
+```sh
+java -jar target\cosmos-migration-monitor.jar 
+       --monitoredAccount <arg>        Source Cosmos Account Endpoint
+       --monitoredCollection <arg>     Source Cosmos Container name
+       --monitoredDatabase <arg>       Source Cosmos Database name
+       --monitoredKey <arg>            Source Cosmos Access key
+       --destinationAccount <arg>      Destination Cosmos Account Endpoint
+       --destinationCollection <arg>   Destination Cosmos Container name
+       --destinationDatabase <arg>     Destination Cosmos Database name
+       --destinationKey <arg>          Destination Cosmos Access key
+       --startTimeEpochMs <arg>        Migration Start Time (milliseconds)
+       --migrationStatusFreq <arg>     Migration Monitor status frequency in seconds
+```
+`Note` 
+- The `startTimeEpochMs` is the epoch time when the data migration activity was triggered (start time). Make a note of this as this would be important to calculate the average and total time required for the Data Migration activity
+- The `migrationStatusFreq` is the status polling frequency in seconds, how frequently one would want to view the status updates
