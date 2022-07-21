@@ -57,3 +57,8 @@ usage: Cosmos Management API
 --resourcegroup <arg>   Resource Group name
 
 `java -jar target\cosmosdb-mapi-sp-uber.jar  --container <containername> --database <database name> --endpoint <account name> --resourcegroup <resource group name> `
+
+
+**Reference Documentation*
+1. [Learn how to handle Long-running operations] (https://docs.microsoft.com/en-us/azure/developer/java/sdk/lro)
+2. [Source code for Azure Management Library] (https://github.com/Azure/azure-libraries-for-java)
