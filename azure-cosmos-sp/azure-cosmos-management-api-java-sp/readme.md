@@ -60,5 +60,5 @@ usage: Cosmos Management API
 
 
 **Reference Documentation**
-1. [Learn how to handle Long-running operations] (https://docs.microsoft.com/en-us/azure/developer/java/sdk/lro)
-2. [Source code for Azure Management Library] (https://github.com/Azure/azure-libraries-for-java)
+1. [Learn how to handle Long-running operations](https://docs.microsoft.com/en-us/azure/developer/java/sdk/lro)
+2. [Source code for Azure Management Library](https://github.com/Azure/azure-libraries-for-java)
