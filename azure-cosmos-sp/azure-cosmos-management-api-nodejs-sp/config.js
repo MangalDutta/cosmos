@@ -6,7 +6,7 @@ const config = {
   accountName: "<Cosmos Account Name>",
   databaseName: "<Cosmos database Name>",
   containerName: "<Cosmos container Name>",
-  storedProcedureName: "<Provide the SP Name you want to create>",
+  storedProcedureName: "<Provide the SP Name you want to create\update>",
   partitionKey: { kind: "Hash", paths: ["/<name>"] }
 };
 
