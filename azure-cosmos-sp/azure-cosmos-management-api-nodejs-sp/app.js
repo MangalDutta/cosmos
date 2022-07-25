@@ -1,26 +1,32 @@
-const { DefaultAzureCredential } = require("@azure/identity");
+
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
-const config = require("./config");
-const { subscriptionId, creds,resourceGroupName,accountName,databaseId,containerId } = config;
+const { DefaultAzureCredential } = require("@azure/identity");
 
 
-// Use 'DefaultAzureCredential' or any other credential of your choice based on https://aka.ms/azsdk/js/identity/examples
-
-const client = new CosmosDBManagementClient(creds, subscriptionId);
-client.databaseAccounts.get(resourceGroupName, accountName).then((result) => {
-  console.log("The result is:");
+/**
+ * This sample code demonstrates how to Create or update an Azure Cosmos DB SQL storedProcedure
+ */
+async function cosmosDbSqlStoredProcedureCreateUpdate() {
+  const config = require("./config");  
+  const { subscriptionId, resourceGroupName, accountName, databaseName, containerName, storedProcedureName } = config;
+  const createUpdateSqlStoredProcedureParameters = {
+    options: {},
+    resource: { body: "body", id: "<Provide the SP Name you want to create>" }, //id: Provide the SP Name you want to update\create and same name should be followd in config file. 
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.sqlResources.beginCreateUpdateSqlStoredProcedureAndWait(
+    resourceGroupName,
+    accountName,
+    databaseName,
+    containerName,
+    storedProcedureName,
+    createUpdateSqlStoredProcedureParameters
+  );
   console.log(result);
-}).catch((err) => {
-  console.log("An error occurred:");
-  console.error(err);
-});
+}
 
-
-async function run() {
-  const { database } = await client.databases.createIfNotExists({ id: databaseId });
-
-  logStep(`Create container with id : ${containerId}`);
-  await database.containers.createIfNotExists({ id: containerId });
+cosmosDbSqlStoredProcedureCreateUpdate().catch(console.error);
 
 
 
