@@ -30,7 +30,7 @@ You would need to use the Azure RBAC, details are available [here](https://docs.
 
 ### Azure CosmosDBManagement client library for JavaScript helps you to perform the Cosmos DB Managemnt operation mentioned [here](https://docs.microsoft.com/en-us/javascript/api/@azure/arm-cosmosdb/?view=azure-node-preview)
 
-# Prerequisites
+# Essential:
 
 You need [an Azure subscription](https://azure.microsoft.com/en-us/free/) to run these sample programs.
 
