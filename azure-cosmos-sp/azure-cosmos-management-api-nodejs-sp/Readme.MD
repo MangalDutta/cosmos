@@ -1,4 +1,4 @@
-# Create stored procedure using the Azure Management API
+# Create\Update stored procedure using the Azure Management API
 ## Setting up Service Principal for accessing data from the Cosmos account using SQL API
 ### Prerequisites
 
