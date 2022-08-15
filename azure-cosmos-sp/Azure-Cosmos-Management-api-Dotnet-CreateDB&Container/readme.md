@@ -45,7 +45,9 @@ To run the samples using the published version of the package:
 Install the below NuGet package dependencies using dotnet:
 
 Azure.Identity
+
 Microsoft.Azure.Cosmos
+
 Microsoft.Azure.Management.CosmosDB 
 
 In addition, you also need to Include prerelease and then add Azure.ResourceManager.CosmosDB. Ensure, to check the csproj file. 
@@ -62,4 +64,4 @@ In addition, you also need to Include prerelease and then add Azure.ResourceMana
   dotnet add package Microsoft.Azure.Management.CosmosDB --version 3.8.0-preview
   
   
-```![image](https://user-images.githubusercontent.com/98678735/184687544-1ef3a241-73ec-4db0-ad55-c1f56591880e.png)
+```
