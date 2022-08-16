@@ -28,7 +28,7 @@
     </dependencies>
 	
 	<build>
-        <finalName>sdkv2</finalName>
+        <finalName>sdkv4</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

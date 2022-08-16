@@ -4,10 +4,13 @@ import com.azure.cosmos.cli.*;
 import com.azure.cosmos.implementation.Paths;
 import com.azure.cosmos.implementation.RequestVerb;
 import com.azure.cosmos.implementation.ResourceType;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
+import net.minidev.json.JSONObject;
 import picocli.CommandLine;
 
 import javax.crypto.Mac;
@@ -96,7 +99,8 @@ public class RestAPI {
 
     public void getAllCollections(final OperationType operationType, final String databaseRid) throws Exception {
         String uri = endpoint+"dbs/"+databaseRid+"/colls";
-        execute(operationType, uri, databaseRid);
+        String resourceId = "dbs/"+databaseRid;
+        execute(operationType, uri, resourceId);
     }
 
     public void getAllPKRanges(final OperationType operationType, final String databaseRid, final String collectionRid) throws Exception {
@@ -121,13 +125,15 @@ public class RestAPI {
                     .header("x-ms-date", date)
                     .header("x-ms-version", "2018-12-31")
                     .header("Authorization", token)
+                    //.queryString("format", "json")
                     .asJson();
             jsonNode = response.getBody();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            System.out.println(gson.toJson(jsonNode));
         }
         catch(Exception exp) {
             System.out.println(exp.getMessage());
         }
-        System.out.println("result "+jsonNode);
     }
 
 
